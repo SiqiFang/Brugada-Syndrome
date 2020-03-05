@@ -1,6 +1,7 @@
 function dVdt = fn(t,V)
     a = 0.0682859; % example with oscillation
-    % a = -2; % example with no oscillation
+    %a = 0.15
+    %a = -2; % example with no oscillation
     b = 0.5;
     c = 3;
     dVdt = zeros(2,1)

@@ -3,7 +3,7 @@ function dydt = Nobel_Brugada(t,y)
 % Nobel Brugada model
 
 % Define the constants used
-Cm = 2.0; %Membrane Capacitance
+Cm = 12; %Membrane Capacitance
 ENa = 40; % Nernst potential for Na
 EK = -100; % Nernst potential for K
 Eanionic = -60; % Nernst potential for anionic
@@ -18,16 +18,17 @@ h = y(4); % Constant for inactivation gate of Sodium Channel
 
 % Set the conductance values
 gleak = gleak_tot; % Relevant conductance for leak current
-INa=(400000*m^3*h + 140)*(V-ENa); % Ionic Current due to Sodium 
-INa = INa/1.1;
-IK1 = fastK(V);
+%INa=(400000*(0.995*m)^(3)*h + 132)*(V-ENa);% Ionic Current due to Sodium
+%INa=(362500*(m)^(3)*h + 132)*(V-ENa);
+INa=(350000*(m)^(3)*h + 132)*(V-ENa);
+IK1 = fastK(V)*(V-EK);
 IK2 = 1200*n^4*(V-EK);
 IK=IK1 + IK2; % Ionic Current due to Potassium
-Il=gleak*(V-Eleak); % Ionic current due to leak
+%Il=gleak*(V-Eleak); % Ionic current due to leak
 I_anionic = 75*(V-Eanionic);
 
 % Final Nobel Brugada Differential equations
-dydt = [((1/Cm)*(-(INa+IK+Il+I_anionic))); an(V)*(1-n)-bn(V)*n; am(V)*(1-m)-bm(V)*m; ah(V)*(1-h)-bh(V)*h];
+dydt = [((1/Cm)*(-(INa+IK+I_anionic))); an(V)*(1-n)-bn(V)*n; (am(V)*(1-m)-bmm(V)*m); 1*(ah(V)*(1-h)-bh(V)*h)];
 
 end
 

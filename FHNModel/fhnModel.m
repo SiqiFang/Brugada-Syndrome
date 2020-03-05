@@ -1,14 +1,13 @@
-tspan=[0:0.01:20];
-v0 = 0; 
-w0 = 1;
+tspan=[0:0.01:100];
+v0 = 0.2; 
+w0 = 0.1;
 y0=[v0;w0]; % Initials conditions
-a = 0.0682859;
-% a = 0.15
-a = -2
-b = 0.5;
-c = 3;
+a = 0.15;
+e = 0.002;
+c = 2.5;
+I = 1;
     
-[t,y]=ode45(@fn,tspan,y0);
+[t,y]=ode45(@fhn,tspan,y0);
 
 % Plot u and v vs. t
 V = y(:,1);
@@ -21,8 +20,8 @@ ylabel('Solution V');
 legend('V');
     
 vspan = [-2.5:0.01:2.5]
-w = (a - vspan)/b;
-v = -vspan + vspan.^3./3;
+w = (vspan+0.7)/0.8;
+v = I-vspan.^3./3+vspan
 figure(2)
 plot(vspan,v,vspan,w,V,W)
 %hold on;

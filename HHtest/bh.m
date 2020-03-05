@@ -1,3 +1,3 @@
 function b =bh(v) %beta value for h gate
-b=1000/(exp((-(v)-42)/10)+1);
+b=1/(1+exp(-(0.1)*(v+35)));
 end
