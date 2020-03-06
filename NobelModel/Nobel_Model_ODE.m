@@ -32,7 +32,8 @@ tspan = [0,max(t)]; % vector of the time span duration
 V_WT = V(:,1);
 m_WT = V(:,3);
 h_WT = V(:,4);
-INa = (400000.*m_WT.^3.*h_WT + 132).*(V_WT-ENa);
+INa = (400000.*m_WT.^3.*h_WT + 132).*(V_WT-ENa)./1000;
+GM = INa./V_WT
 %voltage_WT = [time1, V_timecourse_WT];
 %dlmwrite('voltage_WT.csv',voltage_WT,'delimiter', ',', 'precision', 15) 
 % Plot the Voltage over time
@@ -45,11 +46,11 @@ V_B = V_Brugada(:,1);
 m_B = V_Brugada(:,3);
 h_B = V_Brugada(:,4);
 %INa_B = (362500.*m_B.^3.*h_B + 132).*(V_B-ENa);
-INa_B = (350000.*m_B.^3.*h_B + 132).*(V_B-ENa);
+INa_B = (350000.*m_B.^3.*h_B + 132).*(V_B-ENa)./1000;
 %INa_B = (400000.*(0.995*m_B).^3.*h_B + 132).*(V_B-ENa);
 % Plot the Voltage over time
 %line(time, V_timecourse_Brugada, 'Color','r','LineWidth', 2)
-INa_WT = [time1, INa, V_WT];
+INa_WT = [time1, INa./1000, V_WT];
 INa_E_B = [time, INa_B, V_B];
 INa_T_B = [time, INa_B, V_B];
 INa_W_B = [time, INa_B, V_B];
@@ -63,6 +64,7 @@ dlmwrite('INa_E_B.csv',INa_E_B,'delimiter', ',', 'precision', 15)
 figure(1)
 subplot(2,1,1)
 plot(time1, V_WT, time, V_B,'LineWidth', 2)
+xlim([0 0.5])
 legend('Wildtype','Mutant')
 xlabel('time')
 ylabel(['Voltage'])
@@ -70,6 +72,7 @@ title('Voltage')
 grid
 subplot(2,1,2)
 plot(time1, INa, time, INa_B,'LineWidth', 2)
+xlim([0 0.5])
 legend('Wildtype','Mutant')
 xlabel('time')
 ylabel('Current')

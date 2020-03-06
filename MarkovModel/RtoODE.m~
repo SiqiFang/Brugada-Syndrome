@@ -1,9 +1,8 @@
-function I_Na = RtoODE(r, timess, voltages)
+function solpts = RtoODE(r, timess, voltages)
     V0 = voltages(1);
     E_Na = 40;
-    %G_Na = 16;
-    G_Na = 267;
-    G_Na = 267/2.4;
+    G_Na = 16;
+    gna = 
     TM_V0 = TM_opt(V0, r);
     [EVTM, D] = eig(TM_V0);
     D_vec = diag(D);
@@ -24,7 +23,8 @@ function I_Na = RtoODE(r, timess, voltages)
         P_0s = [P_0s; P_0];
     end
     solpts = P_0s(:, 9);
-    I_Na = Na_Current(G_Na, solpts, voltages(1:end-1), E_Na);
+    INa = G_Na.*solpts.*(voltages-E_Na)
+    I_Na = Na_Current(G_Na, P_0s(:, 9), voltages(1:end-1), E_Na);
 end
         
         
