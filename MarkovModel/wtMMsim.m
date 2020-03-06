@@ -78,11 +78,17 @@ I_Na = Na_Current(G_Na, P_0s(:, 9), voltages(1:end-1), E_Na);
 r = optimvar('r', 2, 'LowerBound', [1e-8, 0.01], 'UpperBound', [1e-5, 10]);
 
 myfcn = fcn2optimexpr(@RtoODE, r, times, voltages);
+format long
+yvalstrue = P_0s(:,9);
+obj = sum(sum((myfcn-yvalstrue).^2));
+prob = optimproblem('Objective',obj);
 
+%sol = RtoODE([3.7933e-7, 6.1839], times, voltages);
+%sol = RtoODE([1e-7, 6], times, voltages);
 
-
-sol = RtoODE([3.7933e-7, 6.1839], times, voltages);
-
+r0.r = [3e-7,6]; % initial condition 1
+r0.r = [1e-7,5]; % initial condition 2, could try global min or grid search
+[rsol, sumsq] = solve(prob,r0)
 
 
 

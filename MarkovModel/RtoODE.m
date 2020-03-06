@@ -4,7 +4,8 @@ function solpts = RtoODE(r, times, voltages)
     [EVTM, D] = eig(TM_V0);
     iEVTM = inv(EVTM);
     D_vec = diag(D);
-    index_zero = find(D_vec==min(abs(D_vec)));
+    abs_D_vec = abs(D_vec);
+    index_zero = find(abs_D_vec==min(abs_D_vec));
     A = eye(9);
     P_0 = A(index_zero, :);
     rat = [];
